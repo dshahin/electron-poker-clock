@@ -16,8 +16,8 @@
     "start",
     "tutorial"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "dan@danshahin.com",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/electron/electron-quick-start/issues"
   },

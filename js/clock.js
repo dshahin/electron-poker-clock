@@ -27,10 +27,16 @@ module.exports = {
         },
         loadRound : function(roundIndex){
             var clock = this;
-            this.currentRound = clock.rounds[clock.round];
+            clock.currentRound = clock.rounds[clock.round];
+            var nextRound = clock.rounds[clock.round + 1] || {break:true};
+            var round = clock.currentRound;
             $('.clock span.hours').html(zeroPad(clock.duration.hours()));
             $('.clock span.minutes').html(zeroPad(clock.duration.minutes()));
             $('.clock span.seconds').html(zeroPad(clock.duration.seconds()));
+
+            $('span.little').html(round.little);
+            $('span.big').html(round.big);
+            $('span.ante').html(round.ante);
         },
         init : function(){
             var clock = this;
