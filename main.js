@@ -1,8 +1,22 @@
+
+
 const electron = require('electron');
+const ipcMain = electron.ipcMain;
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
+
+const dialog = electron.dialog
+//const globalShortcut = electron.globalShortcut;
+
+const globalShortcut = electron.globalShortcut;
+
+const EventEmitter = require('events');
+
+class MyEmitter extends EventEmitter {};
+
+const myEmitter = new MyEmitter();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -12,7 +26,8 @@ function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 800,
-        height: 600
+        height: 600,
+        //frame:false
     });
 
     // and load the index.html of the app.
@@ -27,6 +42,10 @@ function createWindow() {
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         mainWindow = null;
+    });
+    globalShortcut.register('shift+space', function () {
+      mainWindow.webContents.send('toggle', 'foo');
+      console.log('send toggle');
     });
 }
 

@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "jquery": "3.1.0",
+    "moment": "^2.14.1",
     "toastr": "2.1.2"
   }
 }
