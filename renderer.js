@@ -21,7 +21,16 @@ var clock = require ('./js/clock.js');
 
 var $ = require('jquery');
 
-$('body').click(function(){
+var Handlebars = require('handlebars');
+
+var source   = $("#entry-template").html();
+var template = Handlebars.compile(source);
+var context = {rounds:clock.rounds};
+console.log(context);
+var html    = template(context);
+$('div.rounds').html(html);
+
+$('div.clock').click(function(){
     clock.togglePause();
 });
 clock.start();

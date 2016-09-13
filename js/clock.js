@@ -4,7 +4,7 @@ var $ = require('jquery');
 
 module.exports = {
         minutes : 10,
-        duration : moment.duration(10, 'm'),
+        duration : moment.duration(0.25, 'm'),
         round : 0,
         currentRound : {},
         interval : undefined,
@@ -48,7 +48,7 @@ module.exports = {
             var clock = this;
             if(!clock.initialized) clock.init();
             var round = clock.currentRound;
-            console.log(round);
+            //console.log(round);
             clock.interval = setInterval(function(){
               $('.clock span.hours').html(zeroPad(clock.duration.hours()));
               $('.clock span.minutes').html(zeroPad(clock.duration.minutes()));

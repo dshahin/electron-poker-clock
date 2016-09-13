@@ -23,7 +23,18 @@
         <span class="big"></span>
         <span class="ante"></span>
     </div>
+
+    <div class="rounds">
+
+    </div>
 </body>
+
+<script id="entry-template" type="text/x-handlebars-template">
+  foo
+  {{#each rounds}}
+      <li>minutes:{{minutes}} little:{{little}} big:{{big}} ante:{{ante}}</li>
+  {{/each}}
+</script>
 
 <script>
     // You can also require other files to run in this process
