@@ -2,6 +2,8 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 const electron = require('electron');
+var sql = require('sql.js');
+var fs = require('fs');
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
@@ -14,8 +16,6 @@ require('electron').ipcRenderer.on('toggle', (event, arg) => {
   event.returnValue = 'pong'
   clock.togglePause();
 });
-
-
 
 var clock = require ('./js/clock.js');
 
@@ -34,3 +34,17 @@ $('div.clock').click(function(){
     clock.togglePause();
 });
 clock.start();
+var filebuffer = fs.readFileSync('test.sqlite');
+
+var db = new sql.Database(filebuffer);
+// Execute some sql
+sqlstr = "CREATE TABLE hello (a int, b char);";
+sqlstr += "INSERT INTO hello VALUES (0, 'hello');"
+sqlstr += "INSERT INTO hello VALUES (1, 'world');"
+db.run(sqlstr); // Run the query without returning anything
+
+var res = db.exec("SELECT * FROM hello");
+console.log(res);
+var data = db.export();
+var buffer = new Buffer(data);
+fs.writeFileSync("test.sqlite", buffer);
