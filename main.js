@@ -12,6 +12,8 @@ const dialog = electron.dialog
 
 const globalShortcut = electron.globalShortcut;
 
+const electronLocalshortcut = require('electron-localshortcut');
+
 const EventEmitter = require('events');
 
 class MyEmitter extends EventEmitter {};
@@ -43,12 +45,24 @@ function createWindow() {
         // when you should delete the corresponding element.
         mainWindow = null;
     });
-    globalShortcut.register('shift+space', function () {
-      mainWindow.webContents.send('toggle', 'foo');
-      console.log('send toggle');
+
+    electronLocalshortcut.register(mainWindow, 'space', () => {
+        mainWindow.webContents.send('toggle', 'foo');
     });
+
+    electronLocalshortcut.register(mainWindow, 'right', () => {
+        mainWindow.webContents.send('next');
+    });
+
+    electronLocalshortcut.register(mainWindow, 'left', () => {
+        mainWindow.webContents.send('prev');
+    });
+
 }
 
+app.on('space', function(){
+    mainWindow.webContents.send('toggle', 'foo');
+});
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.

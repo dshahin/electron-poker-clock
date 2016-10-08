@@ -6,6 +6,9 @@
     <title>Hello World!</title>
     <link rel="stylesheet" href="node_modules/toastr/build/toastr.css">
     <link rel="stylesheet" href="css/clock.css">
+    <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet">
+
 </head>
 
 <body>
@@ -19,9 +22,9 @@
     </div>
 
     <div class="details">
-        <span class="little"></span>
-        <span class="big"></span>
-        <span class="ante"></span>
+        little:<span class="little"></span>
+        big:<span class="big"></span>
+        <span class="anteLabel">ante:</span><span class="ante"></span>
     </div>
 
     <div class="rounds">
@@ -30,10 +33,17 @@
 </body>
 
 <script id="entry-template" type="text/x-handlebars-template">
-  foo
+    <h2>rounds</h2>
+  <ol class="rounds">
   {{#each rounds}}
-      <li>minutes:{{minutes}} little:{{little}} big:{{big}} ante:{{ante}}</li>
+      <li data-index="{{@index}}">minutes:{{minutes}} little:{{little}} big:{{big}} {{#if ante}}ante:{{ante}}{{/if}}</li>
   {{/each}}
+  </ol>
+  <div class="controls">
+      <div class="prev">prev</div>
+      <div class="next">next</div>
+  </div>
+
 </script>
 
 <script>

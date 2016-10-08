@@ -2,8 +2,17 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 const electron = require('electron');
-var sql = require('sql.js');
-var fs = require('fs');
+const storage = require('electron-json-storage');
+
+storage.get('foobar', (error, data) => {
+  if (error) throw error;
+  $('body').css({'background-color' : data.background});
+  console.log(data);
+  storage.set('foobar',{'background' : 'gray'},(error,data)=>{
+      if (error) throw error;
+      console.log('set background', data);
+  });
+});
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
@@ -11,16 +20,22 @@ const BrowserWindow = electron.BrowserWindow;
 
 const {ipcMain} = require('electron');
 
-require('electron').ipcRenderer.on('toggle', (event, arg) => {
-  console.log(arg)  // prints "ping"
-  event.returnValue = 'pong'
+require('electron').ipcRenderer.on('toggle', () => {
   clock.togglePause();
+});
+
+require('electron').ipcRenderer.on('next', () => {
+  clock.nextRound();
+});
+
+require('electron').ipcRenderer.on('prev', () => {
+  clock.prevRound();
 });
 
 var clock = require ('./js/clock.js');
 
 var $ = require('jquery');
-
+clock.init();
 var Handlebars = require('handlebars');
 
 var source   = $("#entry-template").html();
@@ -33,18 +48,12 @@ $('div.rounds').html(html);
 $('div.clock').click(function(){
     clock.togglePause();
 });
+$('ol.rounds li').click(function(){
+    var $round = $(this),
+        index = $round.data('index');
+        console.log(index);
+    clock.loadRound(index);
+});
+$('div.next').click(()=> clock.nextRound());
+$('div.prev').click(()=> clock.prevRound());
 clock.start();
-var filebuffer = fs.readFileSync('test.sqlite');
-
-var db = new sql.Database(filebuffer);
-// Execute some sql
-sqlstr = "CREATE TABLE  if not exists hello (a int, b char);";
-sqlstr += "INSERT INTO hello VALUES (0, 'hello');"
-sqlstr += "INSERT INTO hello VALUES (1, 'world');"
-db.run(sqlstr); // Run the query without returning anything
-
-var res = db.exec("SELECT * FROM hello");
-console.log(res);
-var data = db.export();
-var buffer = new Buffer(data);
-fs.writeFileSync("test.sqlite", buffer);
