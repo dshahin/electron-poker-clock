@@ -9,11 +9,12 @@ module.exports = {
     round: 0,
     currentRound: {},
     interval: undefined,
-    warningAt: 30,
+    warningAt: 3,
     warningColor: 'red',
     paused: true,
     fx :{
-        alert: new Audio("audio/alert.wav")
+        alert: new Audio("audio/alert.wav"),
+        warning : new Audio("audio/flint.wav")
     },
     togglePause: function() {
         var clock = this;
@@ -109,6 +110,7 @@ module.exports = {
                 clock.say('End of this round');
                 clock.nextRound();
             } else if (clock.duration.asSeconds() === clock.warningAt) {
+                clock.fx.warning.play();
                 clock.say(`${clock.warningAt} second warning`);
             }
         }

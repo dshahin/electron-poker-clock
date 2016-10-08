@@ -47,7 +47,11 @@ $('div.rounds').html(html);
 
 $('div.clock .time').click(function(){
     clock.togglePause();
-    $(this).addClass('animated flash');
+    var $timer = $(this);
+    $timer.addClass('animated rubberBand')
+        .one('oanimationend animationend', ()=>{
+             $timer.removeClass('animated rubberBand');
+         });
 });
 $('ol.rounds li').click(function(){
     var $round = $(this),

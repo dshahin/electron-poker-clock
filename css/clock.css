@@ -39,6 +39,6 @@ div.controls {
 .clock .time {
   animation-duration: 1s;
   /*animation-delay: 2s;*/
-  animation-iteration-count: 3;
+  animation-iteration-count: 2;
 
 }
