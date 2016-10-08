@@ -45,8 +45,9 @@ console.log(context);
 var html    = template(context);
 $('div.rounds').html(html);
 
-$('div.clock').click(function(){
+$('div.clock .time').click(function(){
     clock.togglePause();
+    $(this).addClass('animated flash');
 });
 $('ol.rounds li').click(function(){
     var $round = $(this),

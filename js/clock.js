@@ -12,8 +12,12 @@ module.exports = {
     warningAt: 30,
     warningColor: 'red',
     paused: true,
+    fx :{
+        alert: new Audio("audio/alert.wav")
+    },
     togglePause: function() {
         var clock = this;
+
         clock.paused = !this.paused;
         if (clock.paused) {
             clock.say('clock paused', true);
@@ -24,6 +28,7 @@ module.exports = {
     },
     pause: function() {
         this.paused = true;
+
     },
     unpause: function() {
         this.paused = false;
@@ -99,6 +104,7 @@ module.exports = {
         if (clock.paused === false && clock.duration.asSeconds() > 0) {
             clock.duration.subtract(1, 's');
             if (clock.duration.asSeconds() === 0) {
+                clock.fx.alert.play();
                 toastr.success(`End of this round`);
                 clock.say('End of this round');
                 clock.nextRound();
@@ -108,6 +114,7 @@ module.exports = {
         }
     },
     nextRound: function() {
+
         var clock = this;
         if (clock.rounds[clock.round + 1] !== undefined) {
             clock.round++;
@@ -143,7 +150,7 @@ module.exports = {
     structures: [{
         name: 'Default Structure',
         rounds: [{
-            minutes: 90,
+            minutes: .15,
             little: 25,
             big: 50,
             ante: 0

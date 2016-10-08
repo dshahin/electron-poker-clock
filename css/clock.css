@@ -35,3 +35,10 @@ div.details{
 div.controls {
     font-size: 10vw;
 }
+
+.clock .time {
+  animation-duration: 1s;
+  /*animation-delay: 2s;*/
+  animation-iteration-count: 3;
+
+}
