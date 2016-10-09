@@ -7,7 +7,7 @@ const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
-const dialog = electron.dialog
+const dialog = electron.dialog;
 //const globalShortcut = electron.globalShortcut;
 
 const globalShortcut = electron.globalShortcut;
@@ -16,7 +16,7 @@ const electronLocalshortcut = require('electron-localshortcut');
 
 const EventEmitter = require('events');
 
-class MyEmitter extends EventEmitter {};
+class MyEmitter extends EventEmitter {}
 
 const myEmitter = new MyEmitter();
 

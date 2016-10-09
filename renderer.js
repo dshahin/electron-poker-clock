@@ -3,6 +3,7 @@
 // All of the Node.js APIs are available in this process.
 const electron = require('electron');
 const storage = require('electron-json-storage');
+const toastr = require('toastr');
 
 storage.get('foobar', (error, data) => {
   if (error) throw error;
@@ -35,6 +36,12 @@ require('electron').ipcRenderer.on('prev', () => {
 var clock = require ('./js/clock.js');
 
 var $ = require('jquery');
+$('body').on('structure-loaded',()=>{
+    toastr.info('got structure-loaded');
+});
+$('body').on('end-of-round',()=>{
+    toastr.info('The round is over');
+});
 clock.init();
 var Handlebars = require('handlebars');
 
@@ -42,17 +49,29 @@ var source   = $("#entry-template").html();
 var template = Handlebars.compile(source);
 var context = {rounds:clock.rounds};
 console.log(context);
+
+function bounceClock(){
+    var $timer = $('.time');
+    $timer.addClass('animated rubberBand')
+    .one('animationend', ()=>{
+         $timer.removeClass('animated rubberBand');
+     });
+}
+
+
 var html    = template(context);
 $('div.rounds').html(html);
 
-$('div.clock .time').click(function(){
+$('.time').click(function(){
     clock.togglePause();
     var $timer = $(this);
-    $timer.addClass('animated rubberBand')
-        .one('oanimationend animationend', ()=>{
-             $timer.removeClass('animated rubberBand');
-         });
+    bounceClock();
+    // $timer.addClass('animated rubberBand')
+    // .one('animationend', ()=>{
+    //      $timer.removeClass('animated rubberBand');
+    //  });
 });
+
 $('ol.rounds li').click(function(){
     var $round = $(this),
         index = $round.data('index');
@@ -61,4 +80,5 @@ $('ol.rounds li').click(function(){
 });
 $('div.next').click(()=> clock.nextRound());
 $('div.prev').click(()=> clock.prevRound());
+
 clock.start();

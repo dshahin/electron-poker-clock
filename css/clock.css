@@ -4,15 +4,30 @@ body{
 }
 div.clock {
     font-family: 'Bungee Shade', cursive;
-    font-size: 17vw;
+    font-size: 14vw;
     display: flex;
-    align-content: center;
+    flex-flow :row;
+    justify-content: center;
     cursor: pointer;
     color: orange;
 }
 
+.centered {
+    text-align:center;
+}
+
+div.item {
+     flex: 1;
+}
+
+ol.rounds{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
 div.next,div.prev{
     cursor: pointer;
+    font-size: : 14vw;
 }
 div.next:hover,div.prev:hover{
     color: orange;
@@ -28,17 +43,23 @@ ol.rounds li:hover {
     color: orange;
 }
 
+ol.rounds li.current {
+    font-size: 2vw;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+}
+
 div.details{
     font-size: 4vw;
 }
 
 div.controls {
-    font-size: 10vw;
+    font-size: 4vw;
 }
 
 .clock .time {
   animation-duration: 1s;
   /*animation-delay: 2s;*/
-  animation-iteration-count: 2;
+  animation-iteration-count: 1;
 
 }

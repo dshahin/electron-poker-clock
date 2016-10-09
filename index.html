@@ -6,6 +6,7 @@
     <title>Hello World!</title>
     <link rel="stylesheet" href="node_modules/toastr/build/toastr.css">
     <link rel="stylesheet" href="node_modules/animate.css/animate.css">
+    <link rel="stylesheet" href="node_modules/flexboxgrid/dist/flexboxgrid.css">
     <link rel="stylesheet" href="css/clock.css">
     <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet">
@@ -13,37 +14,49 @@
 </head>
 
 <body>
-    <div class="clock">
 
-        <div class="time">
-          <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
+    <div class="row">
+        <div class="col-xs-1 details" >
+             <div class="prev item centered" title="previous round">&lt;</div>
         </div>
-        <br/>
+        <div class="col-xs-10">
+            <div class="clock time item centered" title="click to toggle pause">
+              <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>
+            </div>
+        </div>
+        <div class="col-xs-1 details centered">
+             <div class="next item" title="next round">&gt;</div>
+        </div>
+    </div>
+    <div class="row">
+
+
+
+        <div class="col-xs-12 details centered" >
+             <span class="little"></span> /
+             <span class="big"> </span>
+             <span class="ante"></span>
+        </div>
+
 
     </div>
 
-    <div class="details">
-        little:<span class="little"></span>
-        big:<span class="big"></span>
-        <span class="anteLabel">ante:</span><span class="ante"></span>
+    <div class="row">
+        <div class="col-xs-12 rounds">
+
+        </div>
     </div>
 
-    <div class="rounds">
 
-    </div>
 </body>
 
 <script id="entry-template" type="text/x-handlebars-template">
-    <h2>rounds</h2>
   <ol class="rounds">
   {{#each rounds}}
       <li data-index="{{@index}}">minutes:{{minutes}} little:{{little}} big:{{big}} {{#if ante}}ante:{{ante}}{{/if}}</li>
   {{/each}}
   </ol>
-  <div class="controls">
-      <div class="prev">prev</div>
-      <div class="next">next</div>
-  </div>
+
 
 </script>
 

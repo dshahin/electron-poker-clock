@@ -12,6 +12,7 @@ module.exports = {
     warningAt: 3,
     warningColor: 'red',
     paused: true,
+    muted: false,
     fx :{
         alert: new Audio("audio/alert.wav"),
         warning : new Audio("audio/flint.wav")
@@ -78,6 +79,10 @@ module.exports = {
         clock.selectedStructure = structureIndex;
         var structure = clock.structures[clock.selectedStructure];
         clock.rounds = structure.rounds;
+        clock.trigger('structure-loaded');
+    },
+    trigger : function(event){
+        $('body').trigger('structure-loaded');
     },
     init: function() {
         var clock = this;
@@ -105,12 +110,13 @@ module.exports = {
         if (clock.paused === false && clock.duration.asSeconds() > 0) {
             clock.duration.subtract(1, 's');
             if (clock.duration.asSeconds() === 0) {
-                clock.fx.alert.play();
+                if(!clock.muted) clock.fx.alert.play();
+                clock.trigger('end-of-round');
                 toastr.success(`End of this round`);
                 clock.say('End of this round');
                 clock.nextRound();
             } else if (clock.duration.asSeconds() === clock.warningAt) {
-                clock.fx.warning.play();
+                if(!clock.muted) clock.fx.warning.play();
                 clock.say(`${clock.warningAt} second warning`);
             }
         }
@@ -137,6 +143,8 @@ module.exports = {
         }
     },
     say: function(text, cancel) {
+        var clock = this;
+        if(clock.muted) return;
         var utter = new SpeechSynthesisUtterance();
         utter.text = text;
         utter.onend = function(event) {
