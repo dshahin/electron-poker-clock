@@ -4,12 +4,17 @@ body{
 }
 div.clock {
     font-family: 'Bungee Shade', cursive;
-    font-size: 14vw;
+    font-size: 15vw;
     display: flex;
     flex-flow :row;
     justify-content: center;
     cursor: pointer;
     color: orange;
+}
+
+input{
+    font-size: 2vw;
+    width: 100%;
 }
 
 .centered {
@@ -27,7 +32,7 @@ ol.rounds{
 
 div.next,div.prev{
     cursor: pointer;
-    font-size: : 14vw;
+    font-size: : 20vw;
 }
 div.next:hover,div.prev:hover{
     color: orange;
@@ -39,7 +44,7 @@ ol.rounds li {
     cursor: pointer;
 }
 
-ol.rounds li:hover {
+table.rounds tr:hover {
     color: orange;
 }
 
@@ -62,4 +67,11 @@ div.controls {
   /*animation-delay: 2s;*/
   animation-iteration-count: 1;
 
+}
+table.rounds {
+    width:100%;
+}
+
+td.index{
+    cursor: pointer;
 }

@@ -12,7 +12,7 @@ module.exports = {
     warningAt: 3,
     warningColor: 'red',
     paused: true,
-    muted: false,
+    muted: true,
     fx :{
         alert: new Audio("audio/alert.wav"),
         warning : new Audio("audio/flint.wav")
@@ -160,7 +160,7 @@ module.exports = {
     structures: [{
         name: 'Default Structure',
         rounds: [{
-            minutes: .15,
+            minutes: 1,
             little: 25,
             big: 50,
             ante: 0

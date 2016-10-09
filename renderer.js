@@ -72,13 +72,23 @@ $('.time').click(function(){
     //  });
 });
 
-$('ol.rounds li').click(function(){
+$('td.index').click(function(){
     var $round = $(this),
-        index = $round.data('index');
+        index = $round.parent().data('index');
         console.log(index);
     clock.loadRound(index);
 });
 $('div.next').click(()=> clock.nextRound());
 $('div.prev').click(()=> clock.prevRound());
 
+
+$('tr.round input').on('keyup',function(){
+    var $input =$(this),
+        blind = $input.data('blind'),
+        $row = $input.parent().parent(),
+        index = $row.data('index');
+    clock.rounds[index][blind] = parseFloat($input.val());
+    console.log(blind, $input.val(), index,clock.rounds);
+    //clock.loadRound(index);
+});
 clock.start();

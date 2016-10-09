@@ -17,7 +17,7 @@
 
     <div class="row">
         <div class="col-xs-1 details" >
-             <div class="prev item centered" title="previous round">&lt;</div>
+             <div class="prev" title="previous round">&lt;</div>
         </div>
         <div class="col-xs-10">
             <div class="clock time item centered" title="click to toggle pause">
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="col-xs-1 details centered">
-             <div class="next item" title="next round">&gt;</div>
+             <div class="next" title="next round">&gt;</div>
         </div>
     </div>
     <div class="row">
@@ -51,11 +51,27 @@
 </body>
 
 <script id="entry-template" type="text/x-handlebars-template">
-  <ol class="rounds">
+  <table class="rounds">
+      <tr style="text-align:left;">
+          <th></th>
+          <th >Minutes</th>
+          <th>Little</th>
+          <th>Big</th>
+          <th>Ante</th>
+          <th>+</th>
+      </tr>
   {{#each rounds}}
-      <li data-index="{{@index}}">minutes:{{minutes}} little:{{little}} big:{{big}} {{#if ante}}ante:{{ante}}{{/if}}</li>
+      <tr class="round" data-index="{{@index}}">
+          <td class="index">{{@index}}</td>
+          <td ><input type="number" value="{{minutes}}" class="minutes" data-blind="minutes"/></td>
+          <td><input type="text" value="{{little}}" class="little" data-blind="little"/></td>
+          <td><input type="text" value="{{big}}" class="big" data-blind="big"/></td>
+          <td><input type="text" value="{{ante}}" class="ante" data-blind="ante"/></td>
+          <td title="duplicate round">+</td>
+      </tr>
+      <!-- <li data-index="{{@index}}">minutes:{{minutes}} little:{{little}} big:{{big}} {{#if ante}}ante:{{ante}}{{/if}}</li> -->
   {{/each}}
-  </ol>
+  </table>
 
 
 </script>
