@@ -1,14 +1,11 @@
 const storage = require('electron-json-storage');
+const defaultSettings = require('./defaultSettings');
 
 module.exports = {
         clearAllData,
         setDefaults,
         getDefaults,
         defaultSettings
-};
-
-var defaultSettings = {
-    'background' : 'gray'
 };
 
 function getDefaults(){

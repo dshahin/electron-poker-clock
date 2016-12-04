@@ -4,6 +4,7 @@
 const electron = require('electron');
 const storage = require('electron-json-storage');
 const toastr = require('toastr');
+require('./js/toastrDefaults');
 const defaults = require('./js/defaults');
 
 // defaults.clearAllData().then(()=>{
@@ -108,5 +109,12 @@ $('tr.round input').on('keyup',function(){
     clock.rounds[index][blind] = parseFloat($input.val());
     console.log(blind, $input.val(), index,clock.rounds);
     //clock.loadRound(index);
+});
+
+$('span.clearAllData').click(()=>{
+    defaults.clearAllData().then(()=> {
+        toastr.success('cleared all data');
+        $('body').css({'background-color' : 'pink'});
+    });
 });
 clock.start();

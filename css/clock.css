@@ -30,11 +30,11 @@ ol.rounds{
     margin-bottom: 0px;
 }
 
-div.next,div.prev{
+div.next,div.prev,.clearAllData{
     cursor: pointer;
     font-size: : 20vw;
 }
-div.next:hover,div.prev:hover{
+div.next:hover,div.prev:hover,.clearAllData:hover{
     color: orange;
 }
 
