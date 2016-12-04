@@ -1,7 +1,7 @@
 module.exports = [{
     name: 'Default Structure',
     rounds: [{
-        minutes: 5,
+        minutes: 3,
         little: 25,
         big: 50,
         ante: 0
@@ -16,4 +16,4 @@ module.exports = [{
         big: 200,
         ante: 0
     }]
-}]
+}];

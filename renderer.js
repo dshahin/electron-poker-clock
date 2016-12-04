@@ -15,9 +15,8 @@ var Handlebars = require('handlebars');
 
 defaults.getDefaults().then((data)=>{
     if(!data.background){
-        toastr.error('no background');
         return defaults.setDefaults().then((newDefs)=>{
-            console.log(`set defaults: ${defaults.defaultSettings}`);
+            toastr.error('loading defaults');
         });
     }
     return data;
