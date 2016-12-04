@@ -4,16 +4,34 @@
 const electron = require('electron');
 const storage = require('electron-json-storage');
 const toastr = require('toastr');
+const defaults = require('./js/defaults');
 
-storage.get('foobar', (error, data) => {
-  if (error) throw error;
-  $('body').css({'background-color' : data.background});
-  console.log(data);
-  storage.set('foobar',{'background' : 'gray'},(error,data)=>{
-      if (error) throw error;
-      console.log('set background', data);
-  });
+// defaults.clearAllData().then(()=>{
+//     console.log('cleared data');
+//     //defaults.setDefaults();
+//
+// });
+
+defaults.getDefaults().then((data)=>{
+    if(!data.background){
+        toastr.error('no background');
+        return defaults.setDefaults().then((newDefs)=>{
+            console.log(`set defaults: ${defaults.defaultSettings}`);
+        });
+    }
+    return data;
+
+}).then((data)=>{
+    defaults.getDefaults().then((data)=>{
+        $('body').css({'background-color' : data.background});
+    });
+}).catch((error)=>{
+    toastr.error(error);
 });
+
+
+
+
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.

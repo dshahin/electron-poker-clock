@@ -12,7 +12,7 @@ module.exports = {
     warningAt: 3,
     warningColor: 'red',
     paused: true,
-    muted: true,
+    muted: false,
     fx :{
         alert: new Audio("audio/alert.wav"),
         warning : new Audio("audio/flint.wav")
