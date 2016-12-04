@@ -33,7 +33,7 @@ module.exports = {
     },
     toggleMute : function(){
         var clock = this;
-        speech.cancel()
+        speech.cancel();
         clock.muted = !clock.muted;
     },
     pause: function() {
@@ -48,21 +48,26 @@ module.exports = {
         clock.round = roundIndex;
         clock.currentRound = clock.rounds[roundIndex];
 
-        var nextRound = clock.rounds[clock.round] || {
+        var nextRound = clock.rounds[clock.round + 1] || {
             break: true
         };
         var round = clock.currentRound;
         console.log(`loading round ${clock.round}`, round);
-        clock.say(
+        document.title = `Round ${clock.round + 1}`;
+        var snippet =
+
             `round ${clock.round + 1}.
                 This is a ${clock.currentRound.minutes} minute round.
                 Small blind is ${clock.currentRound.little} dollars,
                 Big Blind is ${clock.currentRound.big} dollars.
-                `, true);
+                `;
 
         if (clock.currentRound.ante) {
-            clock.say(`There is a ${clock.currentRound.ante} dollar ante.`)
+            snippet = snippet + `There is a ${clock.currentRound.ante} dollar ante.`;
         }
+
+        clock.say(snippet,true);
+
         clock.duration = moment.duration(0);
 
         clock.duration.add(clock.rounds[clock.round].minutes, 'm');
@@ -70,8 +75,13 @@ module.exports = {
         $('.clock span.minutes').html(zeroPad(clock.duration.minutes()));
         $('.clock span.seconds').html(zeroPad(clock.duration.seconds()));
 
+        $('span.round').html(clock.round + 1);
         $('span.little').html(round.little);
         $('span.big').html(round.big);
+        $('span.ante').html(round.ante);
+        $('span.next-little').html(nextRound.little);
+        $('span.next-big').html(nextRound.big);
+        $('span.next-ante').html(nextRound.ante);
         var $ante  = $('span.ante');
         $ante.html(round.ante);
         if(round.ante){

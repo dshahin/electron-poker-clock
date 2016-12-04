@@ -42,6 +42,7 @@ structures.setup()
       $('div.rounds').html(html);
       clock.init();
       clock.start();
+      setCurrentRound(clock.round);
   })
   .catch((err)=> toastr.error(err));
 
@@ -60,10 +61,12 @@ require('electron').ipcRenderer.on('toggle', () => {
 
 require('electron').ipcRenderer.on('next', () => {
   clock.nextRound();
+  setCurrentRound(clock.round);
 });
 
 require('electron').ipcRenderer.on('prev', () => {
   clock.prevRound();
+  setCurrentRound(clock.round);
 });
 
 $(document).ready(function(){
@@ -80,32 +83,28 @@ $(document).ready(function(){
         bounceClock();
     });
 
-    $('body').on('click','td.index',function(){
-        var $round = $(this),
-            index = $round.parent().data('index');
-            console.log(index);
+    $('body').on('click','tr.index',function(){
+        var index = $(this).data('index');
         clock.loadRound(index);
+        setCurrentRound(index);
     });
-    $('div.next').click(()=> clock.nextRound());
-    $('div.prev').click(()=> clock.prevRound());
 
-
-    $('tr.round input').on('keyup',function(){
-        var $input =$(this),
-            blind = $input.data('blind'),
-            $row = $input.parent().parent(),
-            index = $row.data('index');
-        clock.rounds[index][blind] = parseFloat($input.val());
-        console.log(blind, $input.val(), index,clock.rounds);
-        //clock.loadRound(index);
+    $('div.next').click(()=> {
+        clock.nextRound();
+        setCurrentRound(clock.round);
     });
+    $('div.prev').click(()=> {
+        clock.prevRound();
+        setCurrentRound(clock.round);
+    });
+
 
     $('body').on('change','#muted',function(){
 
         clock.toggleMute();
         if(!clock.muted){
           clock.say("unmuted");
-          toastr.success("Unmuted")
+          toastr.success("Unmuted");
         }else{
           toastr.warning("Muted");
         }
@@ -118,8 +117,18 @@ $(document).ready(function(){
             $('body').css({'background-color' : 'pink'});
         });
     });
+
+    $('body').on('change','#structure',()=>{
+        var elem = $(this);
+        alert(elem.val());
+        toastr.success(`value: ${elem.val()}`);
+    });
 });
 
+function setCurrentRound(index){
+    $('tr.index').removeClass('selected');
+    $(`tr.index-${index}`).addClass('selected');
+}
 
 function bounceClock(){
     var $timer = $('.time');

@@ -1,6 +1,6 @@
 body{
     /*font-family: 'Orbitron', sans-serif;*/
-    font-family: 'Bungee Shade', cursive;
+    font-family: 'Arial', sans-serif;
 }
 div.clock {
     font-family: 'Bungee Shade', cursive;
@@ -38,14 +38,11 @@ div.next:hover,div.prev:hover,.clearAllData:hover{
     color: orange;
 }
 
-ol.rounds li {
-    font-size: 2vw;
-    font-family: 'Orbitron', sans-serif;
-    cursor: pointer;
-}
+
 
 table.rounds tr:hover {
     color: orange;
+    cursor: pointer;
 }
 
 ol.rounds li.current {
@@ -56,6 +53,10 @@ ol.rounds li.current {
 
 div.details{
     font-size: 4vw;
+}
+div.label{
+    font-size: 2vw;
+    background-color: lightgray;
 }
 
 div.controls {
@@ -70,8 +71,29 @@ div.controls {
 }
 table.rounds {
     width:100%;
+
+}
+
+table.rounds td {
+    font-size: 10vw;
+}
+
+table.rounds th {
+    font-size: 5vw;
 }
 
 td.index{
     cursor: pointer;
+}
+
+tr.selected {
+    color: orange;
+}
+
+div.row.blinds {
+    font-size: 4vw;
+}
+
+select.structure {
+    width : 100%;
 }

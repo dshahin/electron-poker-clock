@@ -14,6 +14,12 @@
 </head>
 
 <body>
+    <div class="row details">
+        <div class="col-xs-6">Round <span class="round"></span></div>
+        <div class="col-xs-6">
+            <span class="little"></span> / <span class="big"></span> (<span class="ante"></span>)
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-xs-1 details" >
@@ -28,18 +34,38 @@
              <div class="next" title="next round">&gt;</div>
         </div>
     </div>
+
     <div class="row">
-
-
-
-        <div class="col-xs-12 details centered" >
-             <span class="little"></span> /
-             <span class="big"> </span>
-             <span class="ante"></span>
+        <div class="col-xs-6">
+            <div class="row">
+                <select id="structure" class="structure" name="structures" >
+                    <option value="0" selected>Default Structure</option>
+                    <option value="2">Other Structure</option>
+                </select>
+            </div>
         </div>
 
+        <div class="col-xs-6">
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="row  label centered">next little</div>
+                    <div class="row  details centered"><span class="next-little"></span></div>
+
+                </div>
+                <div class="col-xs-4">
+                    <div class="row  label centered">next big</div>
+                    <div class="row  details centered"><span class="next-big"></span></div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="row  label centered">next ante</div>
+                    <div class="row  details centered"><span class="ante"></span></div>
+                </div>
+            </div>
+        </div>
 
     </div>
+
+
 
     <div class="row">
         <div class="col-xs-12 rounds">
@@ -53,25 +79,25 @@
 <script id="entry-template" type="text/x-handlebars-template">
   <table class="rounds">
       <tr style="text-align:left;">
-          <th></th>
+          <!-- <th></th> -->
           <th >Minutes</th>
           <th>Little</th>
           <th>Big</th>
           <th>Ante</th>
-          <th>+</th>
+
       </tr>
   {{#each rounds}}
-      <tr class="round" data-index="{{@index}}">
-          <td class="index">{{@index}}</td>
-          <td ><input type="number" value="{{minutes}}" class="minutes" data-blind="minutes"/></td>
-          <td><input type="text" value="{{little}}" class="little" data-blind="little"/></td>
-          <td><input type="text" value="{{big}}" class="big" data-blind="big"/></td>
-          <td><input type="text" value="{{ante}}" class="ante" data-blind="ante"/></td>
-          <td title="duplicate round">+</td>
+      <tr class="round index index-{{@index}}" data-index="{{@index}}">
+          <!-- <td class="index index-{{@index}}">{{@index}}</td> -->
+          <td>{{minutes}}</td>
+          <td>{{little}}</td>
+          <td>{{big}}</td>
+          <td>{{ante}}</td>
+
       </tr>
-      <!-- <li data-index="{{@index}}">minutes:{{minutes}} little:{{little}} big:{{big}} {{#if ante}}ante:{{ante}}{{/if}}</li> -->
   {{/each}}
   </table>
+
 <span class="clearAllData">clear data</span>
 <input type="checkbox" id="muted" checked/>
 
