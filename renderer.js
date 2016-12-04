@@ -6,12 +6,12 @@ const storage = require('electron-json-storage');
 const toastr = require('toastr');
 require('./js/toastrDefaults');
 const defaults = require('./js/defaults');
+const structures = require('./js/structures');
+var clock = require ('./js/clock.js');
 
-// defaults.clearAllData().then(()=>{
-//     console.log('cleared data');
-//     //defaults.setDefaults();
-//
-// });
+var $ = require('jquery');
+var Handlebars = require('handlebars');
+
 
 defaults.getDefaults().then((data)=>{
     if(!data.background){
@@ -30,6 +30,21 @@ defaults.getDefaults().then((data)=>{
     toastr.error(error);
 });
 
+structures.setup()
+  .then((structures)=> {
+    var source   = $("#entry-template").html();
+    var template = Handlebars.compile(source);
+
+    console.log(context);
+      console.log('structures',structures);
+      clock.structures = structures;
+      var context = {rounds:clock.structures[0].rounds};
+      var html    = template(context);
+      $('div.rounds').html(html);
+      clock.init();
+      clock.start();
+  })
+  .catch((err)=> toastr.error(err));
 
 
 
@@ -52,22 +67,60 @@ require('electron').ipcRenderer.on('prev', () => {
   clock.prevRound();
 });
 
-var clock = require ('./js/clock.js');
+$(document).ready(function(){
+    // $('body').on('structure-loaded',()=>{
+    //     toastr.info('got structure-loaded');
+    // });
+    $('body').on('end-of-round',()=>{
+        toastr.info('The round is over');
+    });
 
-var $ = require('jquery');
-$('body').on('structure-loaded',()=>{
-    toastr.info('got structure-loaded');
-});
-$('body').on('end-of-round',()=>{
-    toastr.info('The round is over');
-});
-clock.init();
-var Handlebars = require('handlebars');
+    $('.time').click(function(){
+        clock.togglePause();
+        var $timer = $(this);
+        bounceClock();
+    });
 
-var source   = $("#entry-template").html();
-var template = Handlebars.compile(source);
-var context = {rounds:clock.rounds};
-console.log(context);
+    $('body').on('click','td.index',function(){
+        var $round = $(this),
+            index = $round.parent().data('index');
+            console.log(index);
+        clock.loadRound(index);
+    });
+    $('div.next').click(()=> clock.nextRound());
+    $('div.prev').click(()=> clock.prevRound());
+
+
+    $('tr.round input').on('keyup',function(){
+        var $input =$(this),
+            blind = $input.data('blind'),
+            $row = $input.parent().parent(),
+            index = $row.data('index');
+        clock.rounds[index][blind] = parseFloat($input.val());
+        console.log(blind, $input.val(), index,clock.rounds);
+        //clock.loadRound(index);
+    });
+
+    $('body').on('change','#muted',function(){
+
+        clock.toggleMute();
+        if(!clock.muted){
+          clock.say("unmuted");
+          toastr.success("Unmuted")
+        }else{
+          toastr.warning("Muted");
+        }
+
+    });
+
+    $('body').on('click','span.clearAllData',()=>{
+        defaults.clearAllData().then(()=> {
+            toastr.success('cleared all data');
+            $('body').css({'background-color' : 'pink'});
+        });
+    });
+});
+
 
 function bounceClock(){
     var $timer = $('.time');
@@ -76,45 +129,3 @@ function bounceClock(){
          $timer.removeClass('animated rubberBand');
      });
 }
-
-
-var html    = template(context);
-$('div.rounds').html(html);
-
-$('.time').click(function(){
-    clock.togglePause();
-    var $timer = $(this);
-    bounceClock();
-    // $timer.addClass('animated rubberBand')
-    // .one('animationend', ()=>{
-    //      $timer.removeClass('animated rubberBand');
-    //  });
-});
-
-$('td.index').click(function(){
-    var $round = $(this),
-        index = $round.parent().data('index');
-        console.log(index);
-    clock.loadRound(index);
-});
-$('div.next').click(()=> clock.nextRound());
-$('div.prev').click(()=> clock.prevRound());
-
-
-$('tr.round input').on('keyup',function(){
-    var $input =$(this),
-        blind = $input.data('blind'),
-        $row = $input.parent().parent(),
-        index = $row.data('index');
-    clock.rounds[index][blind] = parseFloat($input.val());
-    console.log(blind, $input.val(), index,clock.rounds);
-    //clock.loadRound(index);
-});
-
-$('span.clearAllData').click(()=>{
-    defaults.clearAllData().then(()=> {
-        toastr.success('cleared all data');
-        $('body').css({'background-color' : 'pink'});
-    });
-});
-clock.start();

@@ -12,7 +12,10 @@ module.exports = {
     warningAt: 3,
     warningColor: 'red',
     paused: true,
-    muted: false,
+    muted: true,
+    rounds: [],
+    selectedStructure : 0,
+    structures: [],
     fx :{
         alert: new Audio("audio/alert.wav"),
         warning : new Audio("audio/flint.wav")
@@ -27,6 +30,11 @@ module.exports = {
             clock.say('clock started', true);
         }
 
+    },
+    toggleMute : function(){
+        var clock = this;
+        speech.cancel()
+        clock.muted = !clock.muted;
     },
     pause: function() {
         this.paused = true;
@@ -144,7 +152,10 @@ module.exports = {
     },
     say: function(text, cancel) {
         var clock = this;
-        if(clock.muted) return;
+        if(clock.muted) {
+            toastr.info(text);
+            return;
+        }
         var utter = new SpeechSynthesisUtterance();
         utter.text = text;
         utter.onend = function(event) {
@@ -154,28 +165,9 @@ module.exports = {
         if (cancel) speech.cancel();
         speechSynthesis.speak(utter);
 
-    },
-    rounds: [],
-    selectedStructure : 0,
-    structures: [{
-        name: 'Default Structure',
-        rounds: [{
-            minutes: 1,
-            little: 25,
-            big: 50,
-            ante: 0
-        }, {
-            minutes: 2,
-            little: 50,
-            big: 100,
-            ante: 25
-        }, {
-            minutes: 3,
-            little: 100,
-            big: 200,
-            ante: 0
-        }]
-    }]
+    }
+
+
 
 };
 

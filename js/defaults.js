@@ -8,6 +8,7 @@ module.exports = {
         defaultSettings
 };
 
+
 function getDefaults(){
     return new Promise((resolve,reject)=>{
         storage.get('defaults', (error, data) => {
@@ -32,8 +33,6 @@ function setDefaults(defaults){
             }
         });
     });
-
-
 
 }
 
