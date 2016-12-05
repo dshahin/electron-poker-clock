@@ -38,11 +38,14 @@ div.next:hover,div.prev:hover,.clearAllData:hover{
     color: orange;
 }
 
-
+table.rounds tr.break{
+    background-color: lightgray;
+}
 
 table.rounds tr:hover {
-    color: orange;
+    color: white;
     cursor: pointer;
+    background-color: orange;
 }
 
 ol.rounds li.current {
@@ -69,17 +72,23 @@ div.controls {
   animation-iteration-count: 1;
 
 }
+div.rounds {
+    height: 75vh;
+    overflow-y: auto;
+}
 table.rounds {
     width:100%;
 
 }
 
+
+
 table.rounds td {
-    font-size: 10vw;
+    font-size: 5vw;
 }
 
 table.rounds th {
-    font-size: 5vw;
+    font-size: 4.5vw;
 }
 
 td.index{
@@ -96,4 +105,8 @@ div.row.blinds {
 
 select.structure {
     width : 100%;
+}
+
+div.next{
+    color:white;
 }

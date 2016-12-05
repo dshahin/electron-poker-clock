@@ -11,7 +11,13 @@ var clock = require ('./js/clock.js');
 
 var $ = require('jquery');
 var Handlebars = require('handlebars');
+var source   = $("#entry-template").html();
+var template = Handlebars.compile(source);
 
+Handlebars.registerHelper("inc", function(value, options)
+{
+    return parseInt(value) + 1;
+});
 
 defaults.getDefaults().then((data)=>{
     if(!data.background){
@@ -31,22 +37,22 @@ defaults.getDefaults().then((data)=>{
 
 structures.setup()
   .then((structures)=> {
-    var source   = $("#entry-template").html();
-    var template = Handlebars.compile(source);
-
-    console.log(context);
-      console.log('structures',structures);
       clock.structures = structures;
-      var context = {rounds:clock.structures[0].rounds};
-      var html    = template(context);
-      $('div.rounds').html(html);
+      renderRounds();
       clock.init();
       clock.start();
       setCurrentRound(clock.round);
   })
   .catch((err)=> toastr.error(err));
 
+function renderRounds(){
 
+    var context = {rounds:clock.structures[clock.selectedStructure].rounds};
+    console.log('context:',context);
+    var html    = template(context);
+    $('div.rounds').html(html);
+    setCurrentRound(0);
+}
 
 // Module to control application life.
 const app = electron.app;
@@ -84,7 +90,8 @@ $(document).ready(function(){
     });
 
     $('body').on('click','tr.index',function(){
-        var index = $(this).data('index');
+        var $row = $(this);
+        var index = $row.data('index');
         clock.loadRound(index);
         setCurrentRound(index);
     });
@@ -119,9 +126,12 @@ $(document).ready(function(){
     });
 
     $('body').on('change','#structure',()=>{
-        var elem = $(this);
-        alert(elem.val());
-        toastr.success(`value: ${elem.val()}`);
+        var elem = $('#structure'),
+            structureIndex = elem.val();
+        toastr.success(`value: ${structureIndex}`);
+        clock.loadStructure(structureIndex);
+        clock.loadRound(0);
+        renderRounds();
     });
 });
 

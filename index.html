@@ -40,26 +40,18 @@
             <div class="row">
                 <select id="structure" class="structure" name="structures" >
                     <option value="0" selected>Default Structure</option>
-                    <option value="2">Other Structure</option>
+                    <option value="1">Other Structure</option>
                 </select>
             </div>
         </div>
 
         <div class="col-xs-6">
             <div class="row">
-                <div class="col-xs-4">
-                    <div class="row  label centered">next little</div>
-                    <div class="row  details centered"><span class="next-little"></span></div>
+                <div class="col-xs-12">
+                    <div class="row  label centered">next round</div>
+                    <div class="row next details centered"><span class="next-little"></span> / <span class="next-big"></span> (<span class="next-ante"></span>)</div>
+                </div>
 
-                </div>
-                <div class="col-xs-4">
-                    <div class="row  label centered">next big</div>
-                    <div class="row  details centered"><span class="next-big"></span></div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="row  label centered">next ante</div>
-                    <div class="row  details centered"><span class="ante"></span></div>
-                </div>
             </div>
         </div>
 
@@ -75,11 +67,13 @@
 
 
 </body>
+<script id="structure-options-template" type="text/x-handlebars-template">
 
+</script>
 <script id="entry-template" type="text/x-handlebars-template">
   <table class="rounds">
       <tr style="text-align:left;">
-          <!-- <th></th> -->
+          <th></th>
           <th >Minutes</th>
           <th>Little</th>
           <th>Big</th>
@@ -87,14 +81,25 @@
 
       </tr>
   {{#each rounds}}
+      {{#if break }}
+      <tr class="round index index-{{@index}} break" data-index="{{@index}}">
+          <td>{{inc @index}}</td>
+          <td>{{minutes}}</td>
+          <td>Break</td>
+          <td></td>
+          <td></td>
+
+      </tr>
+      {{else}}
       <tr class="round index index-{{@index}}" data-index="{{@index}}">
-          <!-- <td class="index index-{{@index}}">{{@index}}</td> -->
+          <td>{{inc @index}}</td>
           <td>{{minutes}}</td>
           <td>{{little}}</td>
           <td>{{big}}</td>
           <td>{{ante}}</td>
 
       </tr>
+      {{/if}}
   {{/each}}
   </table>
 
