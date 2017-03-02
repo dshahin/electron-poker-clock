@@ -1,3 +1,3 @@
 module.exports = {
-    'background' : 'gray'
+    'background': 'pink'
 };

@@ -14,11 +14,11 @@ module.exports = {
     paused: true,
     muted: true,
     rounds: [],
-    selectedStructure : 0,
+    selectedStructure: 0,
     structures: [],
-    fx :{
-        alert: new Audio("audio/alert.wav"),
-        warning : new Audio("audio/flint.wav")
+    fx: {
+        alert: new Audio('audio/alert.wav'),
+        warning: new Audio("audio/flint.wav")
     },
     togglePause: function() {
         var clock = this;
@@ -31,7 +31,7 @@ module.exports = {
         }
 
     },
-    toggleMute : function(){
+    toggleMute: function() {
         var clock = this;
         speech.cancel();
         clock.muted = !clock.muted;
@@ -53,6 +53,7 @@ module.exports = {
         };
         var round = clock.currentRound;
         console.log(`loading round ${clock.round}`, round);
+
         document.title = `Round ${clock.round + 1}`;
         var snippet =
 
@@ -66,10 +67,12 @@ module.exports = {
             snippet = snippet + `There is a ${clock.currentRound.ante} dollar ante.`;
         }
 
-        clock.say(snippet,true);
+        clock.say(snippet, true);
 
         clock.duration = moment.duration(0);
 
+        //The following should all be in an event
+        //we do not want any dom manipulation at all
         clock.duration.add(clock.rounds[clock.round].minutes, 'm');
         $('.clock span.hours').html(zeroPad(clock.duration.hours()));
         $('.clock span.minutes').html(zeroPad(clock.duration.minutes()));
@@ -82,25 +85,29 @@ module.exports = {
         $('span.next-little').html(nextRound.little);
         $('span.next-big').html(nextRound.big);
         $('span.next-ante').html(nextRound.ante);
-        var $ante  = $('span.ante');
+        var $ante = $('span.ante');
         $ante.html(round.ante);
-        if(round.ante){
+        if (round.ante) {
             $ante.show();
             $('.anteLabel').show();
-        }else{
+        } else {
             $ante.hide();
             $('.anteLabel').hide();
         }
+        clock.trigger('round-loaded');
     },
-    loadStructure : function(structureIndex){
+    loadStructure: function(structureIndex) {
         var clock = this;
         clock.selectedStructure = structureIndex;
         var structure = clock.structures[clock.selectedStructure];
         clock.rounds = structure.rounds;
         clock.trigger('structure-loaded');
     },
-    trigger : function(event){
-        $('body').trigger('structure-loaded');
+    trigger: function(event, msg) {
+        $('body').trigger({
+            type: event,
+            msg: msg
+        });
     },
     init: function() {
         var clock = this;
@@ -122,19 +129,22 @@ module.exports = {
     },
     tick: function() {
         var clock = this;
-        $('.clock span.hours').html(zeroPad(clock.duration.hours()));
-        $('.clock span.minutes').html(zeroPad(clock.duration.minutes()));
-        $('.clock span.seconds').html(zeroPad(clock.duration.seconds()));
+        clock.trigger('tick', {
+            hours: zeroPad(clock.duration.hours()),
+            minutes: zeroPad(clock.duration.minutes()),
+            seconds: zeroPad(clock.duration.seconds())
+        });
+
         if (clock.paused === false && clock.duration.asSeconds() > 0) {
             clock.duration.subtract(1, 's');
             if (clock.duration.asSeconds() === 0) {
-                if(!clock.muted) clock.fx.alert.play();
+                if (!clock.muted) clock.fx.alert.play();
                 clock.trigger('end-of-round');
                 toastr.success(`End of this round`);
                 clock.say('End of this round');
                 clock.nextRound();
             } else if (clock.duration.asSeconds() === clock.warningAt) {
-                if(!clock.muted) clock.fx.warning.play();
+                if (!clock.muted) clock.fx.warning.play();
                 clock.say(`${clock.warningAt} second warning`);
             }
         }
@@ -162,7 +172,7 @@ module.exports = {
     },
     say: function(text, cancel) {
         var clock = this;
-        if(clock.muted) {
+        if (clock.muted) {
             toastr.info(text);
             return;
         }
