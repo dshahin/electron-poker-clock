@@ -1,12 +1,11 @@
 const storage = require('electron-json-storage');
 var defaultStructures = require('./defaultStructures');
-var toastr = require('toastr');
 
 module.exports = {
     getStructures : getStructures,
     setStructures : setStructures,
     setup : setup
-}
+};
 
 
 function setup(){
@@ -16,7 +15,7 @@ function setup(){
         }else{
             return structures;
         }
-    })
+    });
 
 }
 

@@ -74,27 +74,8 @@ module.exports = {
         //The following should all be in an event
         //we do not want any dom manipulation at all
         clock.duration.add(clock.rounds[clock.round].minutes, 'm');
-        $('.clock span.hours').html(zeroPad(clock.duration.hours()));
-        $('.clock span.minutes').html(zeroPad(clock.duration.minutes()));
-        $('.clock span.seconds').html(zeroPad(clock.duration.seconds()));
-
-        $('span.round').html(clock.round + 1);
-        $('span.little').html(round.little);
-        $('span.big').html(round.big);
-        $('span.ante').html(round.ante);
-        $('span.next-little').html(nextRound.little);
-        $('span.next-big').html(nextRound.big);
-        $('span.next-ante').html(nextRound.ante);
-        var $ante = $('span.ante');
-        $ante.html(round.ante);
-        if (round.ante) {
-            $ante.show();
-            $('.anteLabel').show();
-        } else {
-            $ante.hide();
-            $('.anteLabel').hide();
-        }
-        clock.trigger('round-loaded');
+        
+        clock.trigger('round-loaded',{clock:clock});
     },
     loadStructure: function(structureIndex) {
         var clock = this;

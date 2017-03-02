@@ -19,14 +19,6 @@
             "outDir": null
         },
         {
-            "name": "Attach",
-            "type": "node",
-            "request": "attach",
-            "port": 5858,
-            "sourceMaps": false,
-            "outDir": null
-        },
-        {
             "name": "Debug",
             "type": "chrome",
             "request": "launch",

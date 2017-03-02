@@ -78,8 +78,30 @@ $(document).ready(function() {
     $('body').on('structure-loaded', () => {
         toastr.info('got structure-loaded');
     });
-    $('body').on('round-loaded', () => {
-        toastr.info('got round-loaded');
+    $('body').on('round-loaded', (data) => {
+        toastr.info(`got round-loaded ${data.msg.clock.round}`);
+        $('.clock span.hours').html(zeroPad(data.msg.clock.duration.hours()));
+        $('.clock span.minutes').html(zeroPad(data.msg.clock.duration.minutes()));
+        $('.clock span.seconds').html(zeroPad(data.msg.clock.duration.seconds()));
+
+        $('span.round').html(data.msg.clock.round + 1);
+        var round = data.msg.clock.currentRound;
+        $('span.little').html(round.little);
+        $('span.big').html(round.big);
+        $('span.ante').html(round.ante);
+        // $('span.next-little').html(nextRound.little);
+        // $('span.next-big').html(nextRound.big);
+        // $('span.next-ante').html(nextRound.ante);
+        var $ante = $('span.ante');
+        $ante.html(round.ante);
+        if (round.ante) {
+            $ante.show();
+            $('.anteLabel').show();
+        } else {
+            $ante.hide();
+            $('.anteLabel').hide();
+        }
+        
     });
     $('body').on('end-of-round', () => {
         toastr.info('The round is over');
@@ -155,4 +177,11 @@ function bounceClock() {
         .one('animationend', () => {
             $timer.removeClass('animated rubberBand');
         });
+}
+
+function zeroPad(segment) {
+    if (segment < 10) {
+        segment = '0' + segment;
+    }
+    return segment;
 }
