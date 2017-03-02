@@ -18,7 +18,7 @@ module.exports = {
     structures: [],
     fx: {
         alert: new Audio('audio/alert.wav'),
-        warning: new Audio("audio/flint.wav")
+        warning: new Audio('audio/flint.wav')
     },
     togglePause: function() {
         var clock = this;
@@ -167,8 +167,6 @@ module.exports = {
         speechSynthesis.speak(utter);
 
     }
-
-
 
 };
 
