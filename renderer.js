@@ -1,8 +1,8 @@
 // This file is required by the index.html file and will
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
-const electron = require('electron');
-const storage = require('electron-json-storage');
+//const electron = require('electron');
+//const storage = require('electron-json-storage');
 const toastr = require('toastr');
 require('./js/toastrDefaults');
 const defaults = require('./js/defaults');
@@ -53,15 +53,8 @@ function renderRounds() {
     setCurrentRound(0);
 }
 
-// Module to control application life.
-const app = electron.app;
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
-
-const { ipcMain } = require('electron');
-
 require('electron').ipcRenderer.on('toggle', () => {
-    clock.togglePause();
+    togglePause();
 });
 
 require('electron').ipcRenderer.on('next', () => {
@@ -101,7 +94,7 @@ $(document).ready(function() {
             $ante.hide();
             $('.anteLabel').hide();
         }
-        
+
     });
     $('body').on('end-of-round', () => {
         toastr.info('The round is over');
@@ -115,9 +108,9 @@ $(document).ready(function() {
     });
 
     $('.time').click(function() {
-        clock.togglePause();
+        togglePause();
         var $timer = $(this);
-        bounceClock();
+
     });
 
     $('body').on('click', 'tr.index', function() {
@@ -184,4 +177,14 @@ function zeroPad(segment) {
         segment = '0' + segment;
     }
     return segment;
+}
+
+function togglePause() {
+    clock.trigger('toggle-pause');
+    bounceClock();
+    if (clock.paused) {
+        clock.say('clock paused', true);
+    } else {
+        clock.say('clock started', true);
+    }
 }
