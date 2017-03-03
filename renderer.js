@@ -12,6 +12,7 @@ var clock = require('./js/clock.js');
 var $ = require('jquery');
 var Handlebars = require('handlebars');
 var source = $("#entry-template").html();
+let modal = require('./js/modal');
 var template = Handlebars.compile(source);
 
 Handlebars.registerHelper("inc", function(value, options) {
@@ -142,7 +143,7 @@ $(document).ready(function() {
 
     });
 
-    $('body').on('click', 'span.clearAllData', () => {
+    $('body').on('click', '.clearAllData', () => {
         defaults.clearAllData().then(() => {
             toastr.success('cleared all data');
             $('body').css({ 'background-color': 'pink' });
@@ -157,6 +158,11 @@ $(document).ready(function() {
         clock.loadRound(0);
         renderRounds();
     });
+
+    $('#settings').click(() => {
+        modal.toggle();
+    });
+
 });
 
 function setCurrentRound(index) {

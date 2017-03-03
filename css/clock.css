@@ -1,44 +1,50 @@
-body{
+body {
     /*font-family: 'Orbitron', sans-serif;*/
     font-family: 'Arial', sans-serif;
 }
+
 div.clock {
     font-family: 'Bungee Shade', cursive;
     font-size: 15vw;
     display: flex;
-    flex-flow :row;
+    flex-flow: row;
     justify-content: center;
     cursor: pointer;
     color: orange;
 }
 
-input{
+input {
     font-size: 2vw;
     width: 100%;
 }
 
 .centered {
-    text-align:center;
+    text-align: center;
 }
 
 div.item {
-     flex: 1;
+    flex: 1;
 }
 
-ol.rounds{
+ol.rounds {
     margin-top: 0px;
     margin-bottom: 0px;
 }
 
-div.next,div.prev,.clearAllData{
+div.next,
+div.prev,
+.clearAllData {
     cursor: pointer;
     font-size: : 20vw;
 }
-div.next:hover,div.prev:hover,.clearAllData:hover{
+
+div.next:hover,
+div.prev:hover,
+.clearAllData:hover {
     color: orange;
 }
 
-table.rounds tr.break{
+table.rounds tr.break {
     background-color: lightgray;
 }
 
@@ -54,10 +60,11 @@ ol.rounds li.current {
     cursor: pointer;
 }
 
-div.details{
+div.details {
     font-size: 4vw;
 }
-div.label{
+
+div.label {
     font-size: 2vw;
     background-color: lightgray;
 }
@@ -67,21 +74,19 @@ div.controls {
 }
 
 .clock .time {
-  animation-duration: 1s;
-  /*animation-delay: 2s;*/
-  animation-iteration-count: 1;
-
+    animation-duration: 1s;
+    /*animation-delay: 2s;*/
+    animation-iteration-count: 1;
 }
+
 div.rounds {
     height: 75vh;
     overflow-y: auto;
 }
+
 table.rounds {
-    width:100%;
-
+    width: 100%;
 }
-
-
 
 table.rounds td {
     font-size: 5vw;
@@ -91,7 +96,7 @@ table.rounds th {
     font-size: 4.5vw;
 }
 
-td.index{
+td.index {
     cursor: pointer;
 }
 
@@ -104,9 +109,26 @@ div.row.blinds {
 }
 
 select.structure {
-    width : 100%;
+    width: 100%;
 }
 
-div.next{
-    color:white;
+div.next {
+    color: white;
+}
+
+label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+}
+
+input {
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    margin: 0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
 }
