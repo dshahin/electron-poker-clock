@@ -22,14 +22,7 @@ module.exports = {
     },
     togglePause: function() {
         var clock = this;
-
         clock.paused = !this.paused;
-        if (clock.paused) {
-            clock.say('clock paused', true);
-        } else {
-            clock.say('clock started', true);
-        }
-
     },
     toggleMute: function() {
         var clock = this;
@@ -74,8 +67,8 @@ module.exports = {
         //The following should all be in an event
         //we do not want any dom manipulation at all
         clock.duration.add(clock.rounds[clock.round].minutes, 'm');
-        
-        clock.trigger('round-loaded',{clock:clock});
+
+        clock.trigger('round-loaded', { clock: clock });
     },
     loadStructure: function(structureIndex) {
         var clock = this;
@@ -96,6 +89,7 @@ module.exports = {
         clock.loadRound(0);
         clock.say('click anywhere to start the clock');
         this.initialized = true;
+        clock.setupEventHandlers();
     },
     initialized: false,
     start: function() {
@@ -121,7 +115,7 @@ module.exports = {
             if (clock.duration.asSeconds() === 0) {
                 if (!clock.muted) clock.fx.alert.play();
                 clock.trigger('end-of-round');
-                toastr.success(`End of this round`);
+                //toastr.success(`End of this round`);
                 clock.say('End of this round');
                 clock.nextRound();
             } else if (clock.duration.asSeconds() === clock.warningAt) {
@@ -166,6 +160,12 @@ module.exports = {
         if (cancel) speech.cancel();
         speechSynthesis.speak(utter);
 
+    },
+    setupEventHandlers: function() {
+        var clock = this;
+        $('body').on('toggle-pause', function() {
+            clock.togglePause();
+        });
     }
 
 };
